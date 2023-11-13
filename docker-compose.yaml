@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:latest
+    #container_name: db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_DATABASE: solartech
+    restart: always
+
+  modulocliente:
+    depends_on:
+      - db
+    image: em3rald/ladocliente:latest
+    #container_name: backendcliente
+    ports:
+      - 8080:80
+    restart: always
+
+  modulofuncionario:
+    depends_on:
+      - db
+    image: em3rald/ladofuncionario:latest
+    #container_name: backendfuncionario
+    ports:
+      - 5500:80
+    restart: always
+    
+  moduloenviaremail:
+    depends_on:
+      - db
+    image: em3rald/enviaremail
+    #container_name: backendenviaremail
+    ports:
+      - 5600:5000
+    restart: always
+
+  modulocalculadora:
+    depends_on:
+      - db
+    image: em3rald/calculadora
+    #container_name: backendcalculadora
+    ports:
+      - 8000:5000
+    restart: always
