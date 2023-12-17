@@ -26,5 +26,5 @@ services:
     image: joaovittorr/modulocalculadora:latest
     container_name: modulocalculadora
     ports:
-      - 5600:5000
+      - 5600:5600
     restart: always
