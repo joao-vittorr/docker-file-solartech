@@ -7,6 +7,8 @@ services:
     ports:
       - 8080:80
     restart: always
+    depends_on:
+      - db
 
   modulofuncionario:
     image: joaovittorr/modulofuncionario:latest
@@ -14,6 +16,8 @@ services:
     ports:
       - 5500:80
     restart: always
+    depends_on:
+      - db
     
   moduloenviaremail:
     image: joaovittorr/moduloenviaremail:latest
@@ -21,6 +25,8 @@ services:
     ports:
       - 5000:5000
     restart: always
+    depends_on:
+      - db
 
   modulocalculadora:
     image: joaovittorr/modulocalculadora:latest
@@ -28,3 +34,21 @@ services:
     ports:
       - 5600:5600
     restart: always
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: solarTech
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
