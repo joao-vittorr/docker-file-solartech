@@ -1,7 +1,20 @@
 version: '3.8'
 
 services:
+  db:
+    image: mysql:latest
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: solarTech
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+
   modulocliente:
+    depends_on:
+      - db
     image: joaovittorr/modulocliente:latest
     container_name: modulocliente
     ports:
@@ -9,6 +22,8 @@ services:
     restart: always
 
   modulofuncionario:
+    depends_on:
+      - db
     image: joaovittorr/modulofuncionario:latest
     container_name: modulofuncionario
     ports:
@@ -16,6 +31,8 @@ services:
     restart: always
     
   moduloenviaremail:
+    depends_on:
+      - db
     image: joaovittorr/moduloenviaremail:latest
     container_name: moduloenviaremail
     ports:
@@ -23,6 +40,8 @@ services:
     restart: always
 
   modulocalculadora:
+    depends_on:
+      - db
     image: joaovittorr/modulocalculadora:latest
     container_name: modulocalculadora
     ports:
