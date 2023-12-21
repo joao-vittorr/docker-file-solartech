@@ -1,11 +1,24 @@
 version: '3.8'
 
 services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - C:\Users\João Vitor\Documents\Solar-tech\docker-compose\nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - modulocliente
+      - modulofuncionario
+      - moduloenviaremail
+      - modulocalculadora
+
   modulocliente:
     image: joaovittorr/modulocliente:latest
     container_name: modulocliente
-    ports:
-      - 8080:80
+    expose:
+      - 80
     restart: always
     depends_on:
       - db
@@ -13,8 +26,8 @@ services:
   modulofuncionario:
     image: joaovittorr/modulofuncionario:latest
     container_name: modulofuncionario
-    ports:
-      - 5500:80
+    expose:
+      - 80
     restart: always
     depends_on:
       - db
@@ -22,8 +35,8 @@ services:
   moduloenviaremail:
     image: joaovittorr/moduloenviaremail:latest
     container_name: moduloenviaremail
-    ports:
-      - 5000:5000
+    expose:
+      - 5000
     restart: always
     depends_on:
       - db
@@ -31,8 +44,8 @@ services:
   modulocalculadora:
     image: joaovittorr/modulocalculadora:latest
     container_name: modulocalculadora
-    ports:
-      - 5600:5600
+    expose:
+      - 5600
     restart: always
     depends_on:
       - db
@@ -40,8 +53,8 @@ services:
   db:
     image: mysql:latest
     container_name: db
-    ports:
-      - "3306:3306"
+    expose:
+      - 3306
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: solarTech
